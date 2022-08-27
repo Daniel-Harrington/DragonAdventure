@@ -11,13 +11,13 @@ dragon_names = ["Askook","Apophis","Belinda","Leviathan","Thorn","Drakon","Fred"
 
 # Create a class for the Player that has the attributes name and health
 class Player:
-    def _init_(self,name,hp):
+    def __init__(self,name):
         self.name = name
-        self.hp = hp
+        self.hp = 100
 
 # Create a base class for Dragons that has the attributes level and name
 class Dragon:
-    def _init_(self,level,name):
+    def __init__(self,level,name):
         self.level = level
         self.name = name
     
@@ -40,8 +40,8 @@ class Dragon:
 # Create a child class for a Fire Dragon that makes use of our Dragon Class\Dan
 # but has a different type of damage and title
 class Fire_Dragon(Dragon):
-    def _init_(self,level,name):
-        super()._init_(level,name)
+    def __init__(self,level,name):
+        super().__init__(level,name)
         
     def attack(self):
         return super().attack() + " Fire"
@@ -51,8 +51,8 @@ class Fire_Dragon(Dragon):
 
 #These other child classes are almost identical to Fire_Dragon
 class Ice_Dragon(Dragon):
-    def _init_(self,level,name):
-        super()._init_(level,name)
+    def __init__(self,level,name):
+        super().__init__(level,name)
         
     def attack(self):
         return super().attack() + " Ice"
@@ -61,8 +61,8 @@ class Ice_Dragon(Dragon):
         return self.name + ", Lord of the Ice!"
 
 class Lightning_Dragon(Dragon):
-    def _init_(self,level,name):
-        super()._init_(level,name)
+    def __init__(self,level,name):
+        super().__init__(level,name)
         
     def attack(self):
         return super().attack() + " Lightning"
@@ -89,14 +89,17 @@ while(continueGame == "Y" or continueGame == "y"):
     # Create a list of dragon types to choose from
     dragon_types = [Dragon,Ice_Dragon,Fire_Dragon,Lightning_Dragon]
 
+    #Choose a random name from the list
+
+    dragon_name = random.choice(dragon_names)
+
+    # Set a random level from 1-10
+
+    level = random.randint(1,10)
+
     # Choose a random index of that list
-    enemy = dragon_types[random.randint(0,3)]()
 
-    # Set the enemy level as a random level from 1-10
-    enemy.level = random.randint(1,10)
-
-    # Set the enemy name as a random name
-    enemy.name = random.choice(dragon_names)
+    enemy = random.choice(dragon_types)(level,dragon_name)
 
     # Set the enemy health by calculating it
     enemy.health = enemy.calc_health()
@@ -108,12 +111,7 @@ while(continueGame == "Y" or continueGame == "y"):
     #Ask for the players name and save it to an instance of the Player Class
     name = input("What is your name Hero?: ")
     print("Hello " + name +"!")
-    player = Player()
-    player.name = name
-
-    #Set Player hp to 100
-    player.hp = 100
-
+    player = Player(name)
     print("HP: "+ str(player.hp))
     sleep(0.5)
     print("You begin your journey across far reaching fields and mountains but your peaceful adventure is interrupted by a great roar!")
